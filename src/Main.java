@@ -12,7 +12,7 @@ public class Main {
         List<String> txt = loadText("a.txt");
         System.out.println(txt);
         //    сформировал список значений, убрал " ; "
-        List<String> txt1 =loadCSV("a.txt");
+        List<Double> txt1 =loadCSV("a.txt");
         System.out.println(txt1);
 
     }
@@ -40,25 +40,28 @@ public class Main {
     }
 
     //Нужно получить из файла список . в файле они разделяются символом ;
-    private static List<String> loadCSV(String filename) {
+    private static List<Double> loadCSV(String filename) {
         //создаем пустой список
         List<String> numbers = new ArrayList<>();
-
+        List<Double> list2 = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) { //открываем сканером файл
             //циклом вычитываем строки и добавляем в список
             while (scanner.hasNext()) {
                 String s = scanner.nextLine();
                 String[] massiv = s.split(";");
+
                 for (String str : massiv) {
                     String trimmedStr = str.trim();
-                    numbers.add(trimmedStr);
+                    String formatStr = trimmedStr.replace(",", ".");
+                    Double num = Double.parseDouble(formatStr);
+                    list2.add(num);
                 }
             }
         } catch (FileNotFoundException e) {
             System.out.println("файл не открылся");
             System.out.println(e.getMessage());
         }
-        return numbers;
+        return list2;
     }
 
 
